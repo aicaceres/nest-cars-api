@@ -4,9 +4,9 @@ import {
     Controller,
     Delete,
     Get,
-    NotFoundException,
     Param,
     ParseIntPipe,
+    ParseUUIDPipe,
     Patch,
     Post,
 } from '@nestjs/common';
@@ -21,11 +21,8 @@ export class CarsController {
     }
 
     @Get(':id')
-    getCarById(@Param('id', ParseIntPipe) id: number) {
-        const car = this.carsService.findOneById(id);
-        if (!car) throw new NotFoundException(`Car with id ${id} not found`);
-
-        return car;
+    getCarById(@Param('id', ParseUUIDPipe) id: string) {
+        return this.carsService.findOneById(id);
     }
 
     @Post()
