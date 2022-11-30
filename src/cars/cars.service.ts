@@ -1,9 +1,5 @@
 import { CreateCarDto, UpdateCarDto } from './dto/index';
-import {
-    ConfigurableModuleBuilder,
-    Injectable,
-    NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { Car } from './interfaces/car.interface';
 
@@ -65,5 +61,10 @@ export class CarsService {
         });
 
         return carDB;
+    }
+
+    delete(id: string) {
+        this.findOneById(id);
+        this.cars = this.cars.filter((car) => car.id !== id);
     }
 }
