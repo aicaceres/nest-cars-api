@@ -1,3 +1,5 @@
+import { UpdateCarDto } from './dto/update-car.dto';
+import { CreateCarDto } from './dto/create-car.dto';
 import { CarsService } from './cars.service';
 import {
     Body,
@@ -5,7 +7,6 @@ import {
     Delete,
     Get,
     Param,
-    ParseIntPipe,
     ParseUUIDPipe,
     Patch,
     Post,
@@ -26,17 +27,20 @@ export class CarsController {
     }
 
     @Post()
-    createCar(@Param('id', ParseIntPipe) id: number, @Body() body: any) {
-        return body;
+    createCar(@Body() createCarDto: CreateCarDto) {
+        return this.carsService.create(createCarDto);
     }
 
     @Patch(':id')
-    updateCar(@Body() body: any) {
-        return body;
+    updateCar(
+        @Param('id', ParseUUIDPipe) id: string,
+        @Body() updateCarDto: UpdateCarDto,
+    ) {
+        return this.carsService.update(id, updateCarDto);
     }
 
     @Delete(':id')
-    deleteCar(@Param('id', ParseIntPipe) id: number) {
+    deleteCar(@Param('id', ParseUUIDPipe) id: number) {
         return {
             method: 'delete',
             id,
